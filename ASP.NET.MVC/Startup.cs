@@ -27,9 +27,9 @@ namespace ASP.NET.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IBlogRepository, BlogRepository>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection));
-            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);            
             services.AddControllersWithViews();
         }
 
