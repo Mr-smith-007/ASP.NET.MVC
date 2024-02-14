@@ -20,5 +20,10 @@ namespace ASP.NET.MVC.Models.Db.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<User[]> GetUsers()
+        {
+            return await _context.Users.ToArrayAsync();
+        }
     }
 }
