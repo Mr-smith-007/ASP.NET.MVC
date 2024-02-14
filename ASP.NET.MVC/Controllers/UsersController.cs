@@ -16,8 +16,8 @@ namespace ASP.NET.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var authors = await _repo.GetUsers();
-            return View(authors);
+            var users = await _repo.GetUsers();
+            return View(users);
         }
 
         [HttpGet]

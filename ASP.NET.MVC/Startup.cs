@@ -23,17 +23,21 @@ namespace ASP.NET.MVC
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+                
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBlogRepository, BlogRepository>();
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);            
-            services.AddControllersWithViews();
-        }
+            services.AddDbContext<BlogContext>(options => options.UseSqlServer(connection), ServiceLifetime.Singleton);           
+            
+            services.AddSingleton<ILoggingRepository, LoggingRepository>();
+            string loggingConnectionString = Configuration.GetConnectionString("LoggingConnectionString");
+            services.AddDbContext<LoggingContext>(options => options.UseSqlServer(loggingConnectionString), ServiceLifetime.Singleton);
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddControllersWithViews();
+
+        }
+                
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -42,8 +46,7 @@ namespace ASP.NET.MVC
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Home/Error");                
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
