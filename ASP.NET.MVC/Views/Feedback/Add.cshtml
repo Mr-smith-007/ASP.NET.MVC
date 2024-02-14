@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "View project authors";
+}
+<script>
+
+    function ProcessForm() {
+        let data = new FormData();
+
+        data.set("From", document.querySelector('[name="From"]').value)
+        data.set("Text", document.querySelector('[name="Text"]').value)
+
+        let postRequest = new XMLHttpRequest();
+        postRequest.open('POST', document.URL, true);
+
+        postRequest.send(data);
+
+        postRequest.onload = function () {
+            let serverMessage = this.response;
+
+            let element = document.getElementsByClassName("container")[1];
+            element.children[0].remove();
+
+            let paragraph = document.createElement("h5");
+            paragraph.style = "text-align : center"
+            paragraph.innerText = serverMessage;
+
+            element.appendChild(document.createElement("br"))
+            element.appendChild(paragraph)
+        };
+    }
+
+</script>
+
+<style>
+    table {
+        border-spacing: 0 15px;
+        align-self: center;
+    }
+
+    th {
+        background-color: #4287f5;
+        color: white;
+    }
+
+    th,
+    td {
+        width: 150px;
+        text-align: center;
+        border: none;
+        padding: 5px;
+    }
+
+    h2 {
+        color: #4287f5;
+    }
+
+    .submit-button {
+        position: absolute;
+        margin-left: 140px;
+    }
+</style>
+
+<div id="main-block" class="text-center">
+    <div>
+        <h3 style="text-align: left">Оставьте отзыв о проекте здесь</h3>
+        <br>
+        <table>
+            <tr>
+                <td>Ваше имя</td>
+                <td><input type="text" name="From" /> </td>
+            </tr>
+            <tr>
+                <td>Ваш отзыв</td>
+                <td><input type="text" name="Text" /></td>
+            </tr>
+        </table>
+        <br>
+        <div class="submit-button">
+            <input type="submit" value="Отправить" onclick="ProcessForm()" />
+        </div>
+    </div>
+</div>
